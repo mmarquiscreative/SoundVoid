@@ -56,7 +56,7 @@ class Scene2 extends Phaser.Scene {
 
         this.physics.add.collider(this.soundvoid, letters, this.collectLetter);
 
-        this.physics.add.collider(letters, Phaser.World.bounds, this.collectLetter);
+        //this.physics.add.collider(letters, Phaser.World.bounds, this.collectLetter);
 
         ///// Input/Controls **
         this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -65,20 +65,31 @@ class Scene2 extends Phaser.Scene {
 
         ///// Letter collects **
 
-        var maxObjects = 2;
-        for (var i = 0; i <= maxObjects; i++) {
-            var letter = this.physics.add.sprite(100, 100, ('letterCollect' + i));
-            letters.add(letter);
-            letter.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-            letter.body.allowGravity = false;
-            letter.setVelocityX(-200);
-            letter.play('letter-collect-anim');
-        }
 
-        letters.create(300, config.height, 'letterCollect');
-        console.log(this.letters);
 
+        var letter1 = this.physics.add.sprite(100, 100, ('letterCollect'));
+        var letter2 = this.physics.add.sprite(100, 100, ('letterCollect'));
+        var letter3 = this.physics.add.sprite(100, 100, ('letterCollect'));
+
+        letters.add(letter1);
+        letters.add(letter2);
+        letters.add(letter3);
+
+        this.initLetters(letter1);
+        this.initLetters(letter2);
+        this.initLetters(letter3);
+
+        /*
+        letter.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+        letter.body.allowGravity = false;
+        letter.setVelocityX(-200);
+        letter.play('letter-collect-anim');*/
     }
+
+    //letters.create(300, config.height, 'letterCollect');
+    //console.log(this.letters);
+
+
 
 
 
@@ -104,13 +115,34 @@ class Scene2 extends Phaser.Scene {
             this.playerDash();
         }
 
+        if (this.letter1.x < 0) {
+            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+        }
 
+        if (this.letter2.x < 0) {
+            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+        }
 
+        if (this.letter3.x < 0) {
+            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+        }
 
     }
 
 
+    initLetters(someSprite) {
+        someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+        someSprite.body.allowGravity = false;
+        someSprite.setVelocityX(-200);
+        someSprite.play('letter-collect-anim');
+    }
 
+    checkLetterReset(someSprite) {
+        console.log(someSprite);
+        if (someSprite.x < 0) {
+            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+        }
+    }
 
     collectLetter(player, powerUp) {
         console.log('got that letter!');
@@ -118,10 +150,10 @@ class Scene2 extends Phaser.Scene {
         //powerUp.disableBody(true, true);
         powerUp.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
         //powerUp.enableBody(true, true);
-        gameCounters.letters.needNewLetter = true;
-        powerUp.body.allowGravity = false;
-        powerUp.setVelocityX(-200);
-        powerUp.play('letter-collect-anim');
+        // gameCounters.letters.needNewLetter = true;
+        // powerUp.body.allowGravity = false;
+        // powerUp.setVelocityX(-200);
+        // powerUp.play('letter-collect-anim');
     };
 
     addLetter() {
