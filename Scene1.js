@@ -11,8 +11,8 @@ class Scene1 extends Phaser.Scene {
         this.load.image('background1', '/zAssets/Images/background1.jpg');
 
         this.load.spritesheet('sound_void', '/zAssets/Spritesheets/sound_void_sprite.png', {
-            frameWidth: 111,
-            frameHeight: 134
+            frameWidth: 120,
+            frameHeight: 120
         });
 
         this.load.spritesheet('letterCollect', '/zAssets/Spritesheets/S_spritesheet_100x100.png', {

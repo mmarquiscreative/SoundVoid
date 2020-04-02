@@ -34,7 +34,7 @@ class Scene2 extends Phaser.Scene {
         this.anims.create({
             key: 'soundvoid-anim',
             frames: this.anims.generateFrameNumbers('sound_void'),
-            frameRate: 10,
+            frameRate: 25,
             repeat: -1
         });
 
@@ -114,19 +114,19 @@ class Scene2 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.right)) {
             this.playerDash();
         }
+        /*
+                if (this.letter1.x < 0) {
+                    someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+                }
 
-        if (this.letter1.x < 0) {
-            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-        }
+                if (this.letter2.x < 0) {
+                    someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+                }
 
-        if (this.letter2.x < 0) {
-            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-        }
-
-        if (this.letter3.x < 0) {
-            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-        }
-
+                if (this.letter3.x < 0) {
+                    someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+                }
+        */
     }
 
 
