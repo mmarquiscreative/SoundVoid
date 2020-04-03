@@ -11,7 +11,7 @@ var gameSettings = {
 
 var collectibles = {
     letters: {
-        strOptions: ['S', 'O', 'U', 'N', 'D', 'V', 'O', 'I', 'D']
+        strOptions: ['s', 'o', 'u', 'n', 'd']
 
     }
 }

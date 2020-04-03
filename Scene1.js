@@ -7,20 +7,48 @@ class Scene1 extends Phaser.Scene {
 
         // Loads
 
-
+// Images
+        
         this.load.image('background1', '/zAssets/Images/background1.jpg');
-
+       
+        this.load.image('bottom_spacer', '/zAssets/Images/bottom_spacer_800x160.png');
+        
+        // Spritesheets
         this.load.spritesheet('sound_void', '/zAssets/Spritesheets/sound_void_sprite.png', {
             frameWidth: 120,
             frameHeight: 120
         });
 
-        this.load.spritesheet('letterCollect', '/zAssets/Spritesheets/S_spritesheet_100x100.png', {
-            frameWidth: 100,
-            frameHeight: 100
+        this.load.spritesheet('letterCollect_D', '/zAssets/Spritesheets/D_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_S', '/zAssets/Spritesheets/S_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_O', '/zAssets/Spritesheets/O_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_U', '/zAssets/Spritesheets/U_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_N', '/zAssets/Spritesheets/N_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
         });
 
-        this.load.image('bottom_spacer', '/zAssets/Images/bottom_spacer_800x160.png');
+        this.load.spritesheet('qtip', '/zAssets/Spritesheets/cottonswab.png', {
+            frameWidth: 300,
+            frameHeight: 30
+        });
+
 
         /*
          this.load.spritesheet('beam', 'zAssets/spritesheets/beam.png', {

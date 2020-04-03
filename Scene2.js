@@ -20,13 +20,50 @@ class Scene2 extends Phaser.Scene {
 
         this.soundvoid = this.physics.add.sprite(100, config.height - 160, 'sound_void');
 
+        this.qtip = this.physics.add.sprite(100, 100, 'qtip');
+
         ///// Anims **
 
         // Letter
         this.anims.create({
-            key: 'letter-collect-anim',
-            frames: this.anims.generateFrameNumbers('letterCollect'),
+            key: 'lettercollect-s-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_S'),
             frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lettercollect-o-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_O'),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lettercollect-u-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_U'),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lettercollect-n-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_N'),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lettercollect-d-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_D'),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'qtip-anim',
+            frames: this.anims.generateFrameNumbers('qtip'),
+            frameRate: 10,
             repeat: -1
         });
 
@@ -37,6 +74,8 @@ class Scene2 extends Phaser.Scene {
             frameRate: 25,
             repeat: -1
         });
+
+
 
         ///// Groups **
 
@@ -67,17 +106,27 @@ class Scene2 extends Phaser.Scene {
 
 
 
-        var letter1 = this.physics.add.sprite(100, 100, ('letterCollect'));
-        var letter2 = this.physics.add.sprite(100, 100, ('letterCollect'));
-        var letter3 = this.physics.add.sprite(100, 100, ('letterCollect'));
+        this.letter1 = this.physics.add.sprite(100, 100, ('letterCollect1'));
+        this.letter2 = this.physics.add.sprite(100, 100, ('letterCollect2'));
+        this.letter3 = this.physics.add.sprite(100, 100, ('letterCollect3'));
 
-        letters.add(letter1);
-        letters.add(letter2);
-        letters.add(letter3);
+        letters.add(this.letter1);
+        letters.add(this.letter2);
+        letters.add(this.letter3);
 
-        this.initLetters(letter1);
-        this.initLetters(letter2);
-        this.initLetters(letter3);
+        this.initLetters(this.letter1);
+        this.initLetters(this.letter2);
+        this.initLetters(this.letter3);
+
+
+        // projectiles
+
+        this.qtip.play('qtip-anim');
+        this.qtip.setRandomPosition(config.width, 40, 600, gameSettings.stageFloorY - 40);
+
+        this.qtip.body.allowGravity = false;
+        this.qtip.setVelocityX(-400);
+        this.qtip.setBounce(0);
 
         /*
         letter.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
@@ -114,33 +163,50 @@ class Scene2 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.right)) {
             this.playerDash();
         }
-        /*
-                if (this.letter1.x < 0) {
-                    someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-                }
 
-                if (this.letter2.x < 0) {
-                    someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-                }
+        this.checkLetterReset(this.letter1);
+        this.checkLetterReset(this.letter2);
 
-                if (this.letter3.x < 0) {
-                    someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-                }
-        */
+        this.checkLetterReset(this.letter3);
+
+        this.resetSpritePosition(this.qtip);
+
     }
 
 
     initLetters(someSprite) {
-        someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+        someSprite.setRandomPosition(config.width, 40, 600, gameSettings.stageFloorY - 40);
         someSprite.body.allowGravity = false;
         someSprite.setVelocityX(-200);
-        someSprite.play('letter-collect-anim');
+        someSprite.setBounce(0);
+        var randomLetter = this.genRandomLetter(collectibles.letters.strOptions);
+        console.log(randomLetter);
+        someSprite.play('lettercollect-' + randomLetter + '-anim');
+    }
+
+    genRandomLetter(someArray) {
+        var randomNum = 0;
+        var arrayNum = someArray.length;
+        randomNum = Math.random();
+        randomNum = Math.floor(randomNum * arrayNum);
+
+        return someArray[randomNum];
+    }
+
+    resetSpritePosition(someSprite, someVelocityX) {
+        if (someSprite.x < -150) {
+            someSprite.setRandomPosition(config.width, 40, 600, gameSettings.stageFloorY - 40);
+        }
     }
 
     checkLetterReset(someSprite) {
-        console.log(someSprite);
         if (someSprite.x < 0) {
-            someSprite.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+            console.log('resetting');
+            someSprite.setRandomPosition(config.width, 40, 600, gameSettings.stageFloorY - 40);
+            var randomLetter = this.genRandomLetter(collectibles.letters.strOptions);
+            console.log(randomLetter);
+            someSprite.play('lettercollect-' + randomLetter + '-anim');
+
         }
     }
 
@@ -148,7 +214,10 @@ class Scene2 extends Phaser.Scene {
         console.log('got that letter!');
         console.log(powerUp);
         //powerUp.disableBody(true, true);
-        powerUp.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
+
+        powerUp.setRandomPosition(config.width, 40, 600, gameSettings.stageFloorY - 40);
+        powerUp.setVelocity(0, 0);
+        powerUp.setVelocityX(-200);
         //powerUp.enableBody(true, true);
         // gameCounters.letters.needNewLetter = true;
         // powerUp.body.allowGravity = false;
@@ -156,18 +225,7 @@ class Scene2 extends Phaser.Scene {
         // powerUp.play('letter-collect-anim');
     };
 
-    addLetter() {
-        if (gameCounters.letters.needNewLetter) {
-            console.log(Phaser.GameObjects.GameObject);
-            var letter = this.physics.add.sprite(100, 100, 'letterCollect');
-            this.letters.add(letter);
-            letter.setRandomPosition(config.width, 0, 100, gameSettings.stageFloorY);
-            letter.body.allowGravity = false;
-            letter.setVelocityX(-200);
-            letter.play('letter-collect-anim');
-            gameCounters.letters.needNewLetter = false;
-        }
-    }
+
     playerJump() {
         if (gameCounters.soundvoid.jumpCount < 2) {
             gameCounters.soundvoid.onGround = false;
@@ -277,3 +335,8 @@ class Scene2 extends Phaser.Scene {
       } */
 
 }
+/* NOTES:
+
+Bugs:
+• letters occassionally collide when spawning and fly off at angles or faster
+*/
