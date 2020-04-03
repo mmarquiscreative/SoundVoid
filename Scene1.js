@@ -43,6 +43,31 @@ class Scene1 extends Phaser.Scene {
             frameWidth: 80,
             frameHeight: 80
         });
+        
+         this.load.spritesheet('letterCollect_D_static', '/zAssets/Spritesheets/D_static_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_S_static', '/zAssets/Spritesheets/S_static_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_O_static', '/zAssets/Spritesheets/O_static_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_U_static', '/zAssets/Spritesheets/U_static_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        
+ this.load.spritesheet('letterCollect_N_static', '/zAssets/Spritesheets/N_static_spritesheet_80x80.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
 
         this.load.spritesheet('qtip', '/zAssets/Spritesheets/cottonswab.png', {
             frameWidth: 300,

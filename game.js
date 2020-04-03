@@ -1,8 +1,8 @@
 var gameSettings = {
     playerStartX: 100,
-    playerSpeed: 200,
+    playerSpeed: 450,
     stageSpeed: 2,
-    playerJumpVelocity: -1200,
+    playerJumpVelocity: -1000,
     playerAcceleration: 1000,
     dashLength: 200,
     dashRechargeDelay: 400,
@@ -25,6 +25,11 @@ var gameCounters = {
     },
     letters: {
         needNewLetter: false
+    },
+    global: {
+        distanceCount: 0,
+        distance: 0,
+        score: 0
     }
 }
 
@@ -43,7 +48,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {
-                y: 2000
+                y: 1000
             },
             debug: false
         }

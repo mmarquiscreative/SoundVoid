@@ -22,6 +22,14 @@ class Scene2 extends Phaser.Scene {
 
         this.qtip = this.physics.add.sprite(100, 100, 'qtip');
 
+        this.distanceRun = this.add.text(config.width - 90, 50, '00000', {
+            fontSize: '32px',
+            fontFamily: 'Arial',
+            color: '#ffffff',
+            align: 'right'
+        });
+
+        this.distanceRun.setOrigin(0.5);
         ///// Anims **
 
         // Letter
@@ -67,6 +75,42 @@ class Scene2 extends Phaser.Scene {
             repeat: -1
         });
 
+        // static letter anims
+        this.anims.create({
+            key: 'static-d-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_D_static'),
+            frameRate: 10,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'static-s-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_S_static'),
+            frameRate: 10,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'static-o-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_O_static'),
+            frameRate: 10,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'static-u-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_U_static'),
+            frameRate: 10,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'static-n-anim',
+            frames: this.anims.generateFrameNumbers('letterCollect_N_static'),
+            frameRate: 10,
+            repeat: -1
+        })
+
         // soundvoid
         this.anims.create({
             key: 'soundvoid-anim',
@@ -74,7 +118,7 @@ class Scene2 extends Phaser.Scene {
             frameRate: 25,
             repeat: -1
         });
-
+        this.soundvoid.setBounce(0);
 
 
         ///// Groups **
@@ -93,7 +137,7 @@ class Scene2 extends Phaser.Scene {
 
         this.physics.add.collider(this.soundvoid, platforms, this.resetJump);
 
-        this.physics.add.collider(this.soundvoid, letters, this.collectLetter);
+        this.physics.add.collider(this.soundvoid, letters, this.collectLetter, null, this);
 
         //this.physics.add.collider(letters, Phaser.World.bounds, this.collectLetter);
 
@@ -104,7 +148,20 @@ class Scene2 extends Phaser.Scene {
 
         ///// Letter collects **
 
+        this.HUDletter_s = this.add.sprite(50, 50, ('s-static'));
+        this.HUDletter_s.play('static-s-anim');
 
+        this.HUDletter_o = this.add.sprite(130, 50, ('o-static'));
+        this.HUDletter_o.play('static-o-anim');
+
+        this.HUDletter_u = this.add.sprite(210, 50, ('u-static'));
+        this.HUDletter_u.play('static-u-anim');
+
+        this.HUDletter_n = this.add.sprite(290, 50, ('n-static'));
+        this.HUDletter_n.play('static-n-anim');
+
+        this.HUDletter_d = this.add.sprite(370, 50, ('d-static'));
+        this.HUDletter_d.play('static-d-anim');
 
         this.letter1 = this.physics.add.sprite(100, 100, ('letterCollect1'));
         this.letter2 = this.physics.add.sprite(100, 100, ('letterCollect2'));
@@ -144,12 +201,25 @@ class Scene2 extends Phaser.Scene {
 
     update() {
 
+        // update distance
+        if (gameCounters.global.distanceCount < 8) {
+
+            gameCounters.global.distanceCount++
+        } else {
+            gameCounters.global.distanceCount = 0;
+            gameCounters.global.distanceCount++
+            gameCounters.global.distance += Math.round(gameSettings.stageSpeed / 4);
+            this.distanceRun.setText((gameCounters.global.distance + 'm'));
+
+        }
+
+        this.movePlayerManager()
         // scrolling bg
         this.background.tilePositionX += gameSettings.stageSpeed;
 
-        if (this.soundvoid.x > gameSettings.playerStartX) {
+        /* if (this.soundvoid.x > gameSettings.playerStartX) {
             this.soundvoid.x -= gameSettings.stageSpeed;
-        };
+        };*/
 
         // listen for jump
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
@@ -160,9 +230,9 @@ class Scene2 extends Phaser.Scene {
          };*/
 
         // listen for dash
-        if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.right)) {
-            this.playerDash();
-        }
+        /* if (Phaser.Input.Keyboard.JustDown(this.cursorKeys.right)) {
+             this.playerDash();
+         } */
 
         this.checkLetterReset(this.letter1);
         this.checkLetterReset(this.letter2);
@@ -173,6 +243,27 @@ class Scene2 extends Phaser.Scene {
 
     }
 
+
+    movePlayerManager() {
+        if (this.cursorKeys.left.isDown) {
+            this.soundvoid.setVelocityX(-gameSettings.playerSpeed);
+        } else if (this.cursorKeys.right.isDown) {
+            this.soundvoid.setVelocityX(gameSettings.playerSpeed);
+        } else {
+            this.soundvoid.setVelocityX(0);
+        }
+
+        /*  if (this.cursorKeys.up.isDown) {
+             this.player.setVelocityY(-gameSettings.playerSpeed);
+         } else if (this.cursorKeys.down.isDown) {
+             this.player.setVelocityY(gameSettings.playerSpeed);
+         } else {
+             this.player.setVelocityY(0);
+         }; */
+    };
+
+
+    updateDistance() {}
 
     initLetters(someSprite) {
         someSprite.setRandomPosition(config.width, 40, 600, gameSettings.stageFloorY - 40);
@@ -206,18 +297,41 @@ class Scene2 extends Phaser.Scene {
             var randomLetter = this.genRandomLetter(collectibles.letters.strOptions);
             console.log(randomLetter);
             someSprite.play('lettercollect-' + randomLetter + '-anim');
+            someSprite.name = randomLetter;
 
         }
     }
 
     collectLetter(player, powerUp) {
+        console.log(this);
         console.log('got that letter!');
-        console.log(powerUp);
+        console.log(powerUp.name);
         //powerUp.disableBody(true, true);
 
         powerUp.setRandomPosition(config.width, 40, 600, gameSettings.stageFloorY - 40);
         powerUp.setVelocity(0, 0);
         powerUp.setVelocityX(-200);
+
+        switch (powerUp.name) {
+            case 's':
+                this.HUDletter_s.play('lettercollect-s-anim');
+                break;
+            case 'o':
+                this.HUDletter_o.play('lettercollect-o-anim');
+                break;
+            case 'u':
+                this.HUDletter_u.play('lettercollect-u-anim');
+                break;
+            case 'n':
+                this.HUDletter_n.play('lettercollect-n-anim');
+                break;
+            case 'd':
+                this.HUDletter_d.play('lettercollect-d-anim');
+                break;
+            default:
+                console.log('powerup switch');
+
+        }
         //powerUp.enableBody(true, true);
         // gameCounters.letters.needNewLetter = true;
         // powerUp.body.allowGravity = false;
@@ -227,7 +341,7 @@ class Scene2 extends Phaser.Scene {
 
 
     playerJump() {
-        if (gameCounters.soundvoid.jumpCount < 2) {
+        if (gameCounters.soundvoid.jumpCount < 3) {
             gameCounters.soundvoid.onGround = false;
             this.soundvoid.setVelocityY(gameSettings.playerJumpVelocity);
             this.soundvoid.setAccelerationY(gameSettings.playerAcceleration);
