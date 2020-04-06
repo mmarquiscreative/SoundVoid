@@ -115,7 +115,7 @@ class Scene2 extends Phaser.Scene {
         this.anims.create({
             key: 'soundvoid-anim',
             frames: this.anims.generateFrameNumbers('sound_void'),
-            frameRate: 25,
+            frameRate: 35,
             repeat: -1
         });
         this.soundvoid.setBounce(0);
@@ -138,6 +138,7 @@ class Scene2 extends Phaser.Scene {
         this.physics.add.collider(this.soundvoid, platforms, this.resetJump);
 
         this.physics.add.collider(this.soundvoid, letters, this.collectLetter, null, this);
+
 
         //this.physics.add.collider(letters, Phaser.World.bounds, this.collectLetter);
 
@@ -190,6 +191,8 @@ class Scene2 extends Phaser.Scene {
         letter.body.allowGravity = false;
         letter.setVelocityX(-200);
         letter.play('letter-collect-anim');*/
+
+        this.physics.add.overlap(this.soundvoid, this.qtip, this.playerDamage(), null, this);
     }
 
     //letters.create(300, config.height, 'letterCollect');
@@ -197,7 +200,10 @@ class Scene2 extends Phaser.Scene {
 
 
 
-
+    playerDamage(player, projectile) {
+        console.log(projectile);
+        console.log('hit');
+    }
 
     update() {
 
@@ -262,6 +268,10 @@ class Scene2 extends Phaser.Scene {
          }; */
     };
 
+    endGame() {
+        this.scene.start('endGame');
+    }
+
 
     updateDistance() {}
 
@@ -273,6 +283,7 @@ class Scene2 extends Phaser.Scene {
         var randomLetter = this.genRandomLetter(collectibles.letters.strOptions);
         console.log(randomLetter);
         someSprite.play('lettercollect-' + randomLetter + '-anim');
+        someSprite.name = randomLetter;
     }
 
     genRandomLetter(someArray) {

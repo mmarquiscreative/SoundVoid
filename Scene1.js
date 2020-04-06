@@ -7,64 +7,65 @@ class Scene1 extends Phaser.Scene {
 
         // Loads
 
-// Images
-        
+        // Images
+
+        this.load.image('openBG', '/zAssets/Images/soundvoid_titlecard_wornblur.png');
         this.load.image('background1', '/zAssets/Images/background1.jpg');
-       
+
         this.load.image('bottom_spacer', '/zAssets/Images/bottom_spacer_800x160.png');
-        
+
         // Spritesheets
-        this.load.spritesheet('sound_void', '/zAssets/Spritesheets/sound_void_sprite.png', {
-            frameWidth: 120,
-            frameHeight: 120
+        this.load.spritesheet('sound_void', '/zAssets/Spritesheets/soundvoid_prelim_anims_walk.png', {
+            frameWidth: 98,
+            frameHeight: 81
         });
 
         this.load.spritesheet('letterCollect_D', '/zAssets/Spritesheets/D_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_S', '/zAssets/Spritesheets/S_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_S', '/zAssets/Spritesheets/S_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_O', '/zAssets/Spritesheets/O_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_O', '/zAssets/Spritesheets/O_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_U', '/zAssets/Spritesheets/U_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_U', '/zAssets/Spritesheets/U_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_N', '/zAssets/Spritesheets/N_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_N', '/zAssets/Spritesheets/N_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
-         this.load.spritesheet('letterCollect_D_static', '/zAssets/Spritesheets/D_static_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_D_static', '/zAssets/Spritesheets/D_static_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_S_static', '/zAssets/Spritesheets/S_static_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_S_static', '/zAssets/Spritesheets/S_static_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_O_static', '/zAssets/Spritesheets/O_static_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_O_static', '/zAssets/Spritesheets/O_static_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_U_static', '/zAssets/Spritesheets/U_static_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_U_static', '/zAssets/Spritesheets/U_static_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
-        
- this.load.spritesheet('letterCollect_N_static', '/zAssets/Spritesheets/N_static_spritesheet_80x80.png', {
+
+        this.load.spritesheet('letterCollect_N_static', '/zAssets/Spritesheets/N_static_spritesheet_80x80.png', {
             frameWidth: 80,
             frameHeight: 80
         });
@@ -87,9 +88,17 @@ class Scene1 extends Phaser.Scene {
          this.load.audio('music', ['/zAssets/sounds/sci-fi_platformer12.ogg', '/zAssets/sounds/sci-fi_platformer12.mp3']);*/
     }
     create() {
-        this.add.text(20, 20, "Loading game...");
 
-        this.scene.start("playGame");
+        this.openingBG = this.add.image(config.width / 2, config.height / 2, 'openBG');
+        this.helloButton = this.add.text(config.width / 2, config.height - 200, 'Start Game', {
+            fill: '#0f0'
+        });
+        this.helloButton.setInteractive();
+
+        this.helloButton.on('pointerdown', () => {
+            this.scene.start("playGame");
+        });
+
         //  this.add.audio('music', true)
         /* this.anims.create({
             key: 'ship1_anim',
